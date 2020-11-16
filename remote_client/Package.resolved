@@ -1,0 +1,115 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Cnanovg",
+        "repositoryURL": "https://github.com/UnGast/Cnanovg.git",
+        "state": {
+          "branch": "master",
+          "revision": "b6ca44619bf68833a81ddcb23c9396219acd9b35",
+          "version": null
+        }
+      },
+      {
+        "package": "ColorizeSwift",
+        "repositoryURL": "https://github.com/mtynior/ColorizeSwift",
+        "state": {
+          "branch": "master",
+          "revision": "2a354639173d021f4648cf1912b2b00a3a7cd83c",
+          "version": null
+        }
+      },
+      {
+        "package": "Easing",
+        "repositoryURL": "https://github.com/manuelCarlos/Easing.git",
+        "state": {
+          "branch": null,
+          "revision": "7f4ef32ad74dcaab33855adce2779dee9f2a919a",
+          "version": "2.0.6"
+        }
+      },
+      {
+        "package": "Path.swift",
+        "repositoryURL": "https://github.com/mxcl/Path.swift.git",
+        "state": {
+          "branch": "master",
+          "revision": "891d70ec7cb448829acb8a2d73970b088fd9e5a7",
+          "version": null
+        }
+      },
+      {
+        "package": "Runtime",
+        "repositoryURL": "https://github.com/wickwirew/Runtime.git",
+        "state": {
+          "branch": null,
+          "revision": "a848b81e1a0100801f572e5273ffe4352fd54088",
+          "version": "2.2.2"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "c3e2359c55cd8b47207ab7363b77c9c398a95294",
+          "version": "2.23.0"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
+        "state": {
+          "branch": null,
+          "revision": "eb102ad32add8638410e37a69bc815ea11379813",
+          "version": "2.10.0"
+        }
+      },
+      {
+        "package": "swift-numerics",
+        "repositoryURL": "https://github.com/apple/swift-numerics",
+        "state": {
+          "branch": null,
+          "revision": "6b24333510e9044cf4716a07bed65eeed6bc6393",
+          "version": "0.0.8"
+        }
+      },
+      {
+        "package": "GL",
+        "repositoryURL": "https://github.com/UnGast/swift-opengl.git",
+        "state": {
+          "branch": "master",
+          "revision": "5cffdfff5ae39aabddf093cfa084f55270b3cb2a",
+          "version": null
+        }
+      },
+      {
+        "package": "XML",
+        "repositoryURL": "https://github.com/kelvin13/swiftxml",
+        "state": {
+          "branch": "master",
+          "revision": "91ae89c58e5a478191c27d44c31bd9bae281fefd",
+          "version": null
+        }
+      },
+      {
+        "package": "Swim",
+        "repositoryURL": "https://github.com/t-ae/swim.git",
+        "state": {
+          "branch": "master",
+          "revision": "e8e3dc5f6a6f58af40a5c341cb7fbf0d7324dc74",
+          "version": null
+        }
+      },
+      {
+        "package": "websocket-kit",
+        "repositoryURL": "https://github.com/vapor/websocket-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "2b06a70dfcfa76a2e5079f60e3ae911511f09db0",
+          "version": "2.1.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
