@@ -11,11 +11,12 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "SwiftGUI", url: "https://github.com/UnGast/swift-gui.git", .branch("master")),
-        .package(url: "https://github.com/vapor/websocket-kit.git", from: "2.0.0")
+        .package(url: "https://github.com/vapor/websocket-kit.git", from: "2.0.0"),
+        .package(name: "RemoteProtocol", path: "../remote_protocol")
     ],
     targets: [
         .target(
             name: "RemoteClient",
-            dependencies: ["SwiftGUI", .product(name: "WebSocketKit", package: "websocket-kit")]),
+            dependencies: ["SwiftGUI", "RemoteProtocol", .product(name: "WebSocketKit", package: "websocket-kit")]),
     ]
 )

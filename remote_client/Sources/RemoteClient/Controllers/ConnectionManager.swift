@@ -9,6 +9,8 @@ public struct ConnectionManager {
     let socket = WebSocket.connect(to: "ws://\(connection.host):\(connection.port)", on: group) { ws in
       print("GOT SOCKET", ws)
       onConnected(connection)
+      let client = RemoteProtocolClientImpl(ws)
+      client.startCommunication()
     }
   }
 }
