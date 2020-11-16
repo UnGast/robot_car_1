@@ -10,17 +10,19 @@ public class RemoteProtocolClientImpl: RemoteProtocolClient {
   }
 
   public func startCommunication() {
-    socket.onText { socket, text in
-      print("client received message", text)
+    socket.onText { [unowned self] socket, text in
+      let message = RemoteProtocol.deserializeMessage(text)
+      print("client received message", message)
+      handle(message as! RemoteProtocolServerMessage)
     }
     send(RemoteProtocol.ClientHandshakeMessage(clientState: .Ok))
   }
 
   public func send<M: RemoteProtocolClientMessage>(_ message: M) {
-    socket.send(String(data: try! JSONEncoder().encode(message), encoding: .utf8)!)
+    socket.send(message.serialize())
   }
 
-  public func handle<M: RemoteProtocolServerMessage>(_ message: M) {
-
+  public func handle(_ message: RemoteProtocolServerMessage) {
+    print("handle", message)
   }
 }

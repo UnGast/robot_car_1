@@ -6,7 +6,8 @@ func routes(_ app: Application) throws {
     }
 
     app.webSocket("") { req, ws in
-        let controller = RemoteProtocolServerImpl(ws)
-        controller.startCommunication()
+        let server = RemoteProtocolServerImpl(ws)
+        RemoteProtocolServerManager.register(server)
+        server.startCommunication()
     }
 }

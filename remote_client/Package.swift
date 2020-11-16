@@ -10,7 +10,7 @@ let package = Package(
             targets: ["RemoteClient"]),
     ],
     dependencies: [
-        .package(name: "SwiftGUI", url: "https://github.com/UnGast/swift-gui.git", .branch("master")),
+        .package(name: "SwiftGUI", path: "/Users/UnGast/Nicht_Dropbox/swift-cross-platform-gui-example"),
         .package(url: "https://github.com/vapor/websocket-kit.git", from: "2.0.0"),
         .package(name: "RemoteProtocol", path: "../remote_protocol")
     ],
