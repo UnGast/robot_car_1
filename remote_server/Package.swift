@@ -9,14 +9,18 @@ let package = Package(
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
-        .package(name: "RemoteProtocol", path: "../remote_protocol")
+        .package(name: "RemoteProtocol", path: "../remote_protocol"),
+        .package(name: "RobotController", path: "../robot_controller"),
+        .package(name: "BaseGPIO", path: "../base_gpio")
     ],
     targets: [
         .target(
             name: "App",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                "RemoteProtocol"
+                "RemoteProtocol",
+                "RobotController",
+                "BaseGPIO"
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
