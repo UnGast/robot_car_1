@@ -1,4 +1,5 @@
 import Foundation
+import BaseGPIO
 
 public protocol RemoteProtocolMessage: Codable {
     var typeName: String { get }
@@ -41,6 +42,14 @@ public enum RemoteProtocol {
         }
     }
 
+    public struct ServerGPIOStateMessage: RemoteProtocolServerMessage {
+        public var layout: GPIOPinLayout<String>
+
+        public init(layout: GPIOPinLayout<String>) {
+            self.layout = layout
+        }
+    }
+
     public struct ClientHandshakeMessage: RemoteProtocolClientMessage {
         public var clientState: ClientState
 
@@ -51,6 +60,7 @@ public enum RemoteProtocol {
 
     public static let messageTypes: [String: RemoteProtocolMessage.Type] = [
         "ServerHandshakeMessage": ServerHandshakeMessage.self,
+        "ServerGPIOStateMessage": ServerGPIOStateMessage.self,
         "ClientHandshakeMessage": ClientHandshakeMessage.self
     ]
 
