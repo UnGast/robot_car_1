@@ -34,7 +34,7 @@ extension GPIOPinLayout: Codable {
       self = .column(children)
     } else if let _ = try? container.decode(Bool.self, forKey: .typePin) {
       let id = try container.decode(String.self, forKey: .pinId)
-      self = .pin(GPIOPinId(id)!)
+      self = .pin(id)
     } else {
       throw DecodingError.dataCorrupted(DecodingError.Context(
         codingPath: container.codingPath,

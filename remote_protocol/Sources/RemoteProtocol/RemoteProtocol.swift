@@ -43,9 +43,9 @@ public enum RemoteProtocol {
     }
 
     public struct ServerGPIOStateMessage: RemoteProtocolServerMessage {
-        public var layout: GPIOPinLayout<String>
+        public var layout: GPIOPinLayout
 
-        public init(layout: GPIOPinLayout<String>) {
+        public init(layout: GPIOPinLayout) {
             self.layout = layout
         }
     }

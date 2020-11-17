@@ -1,14 +1,14 @@
 import Vapor
 import RemoteProtocol
-import MockRobotController
+import RobotControllerBase
 
 public class RemoteProtocolServerImpl: RemoteProtocolServer {
   private let socket: WebSocket
-  private let robotController: MockRobotController
+  private let robotController: RobotController
 
-  public init(_ socket: WebSocket) {
+  public init(_ robotController: RobotController, _ socket: WebSocket) {
+    self.robotController = robotController
     self.socket = socket
-    self.robotController = MockRobotController()
   }
 
   public func startCommunication() {
@@ -18,7 +18,7 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
       handle(message as! RemoteProtocolClientMessage)
     }
     send(RemoteProtocol.ServerHandshakeMessage(serverState: .Ok))
-    send(RemoteProtocol.ServerGPIOStateMessage(layout: robotController.gpioController.layout.asAny()))
+    send(RemoteProtocol.ServerGPIOStateMessage(layout: robotController.gpioController.layout))
   }
 
   public func send<M: RemoteProtocolServerMessage>(_ message: M) {

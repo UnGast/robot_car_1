@@ -1,29 +1,68 @@
 // swift-tools-version:5.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
-let package = Package(
+var package = Package(
     name: "RobotController",
+    platforms: [
+        .macOS(.v10_15)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .executable(
+            name: "RobotControllerRun",
+            targets: ["Run"]
+        ),
         .library(
             name: "RobotController",
-            targets: ["RobotController"]),
+            targets: ["RobotControllerBase", "MockRobotController"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(name: "RemoteProtocol", path: "../remote_protocol"),
+        .package(name: "BaseGPIO", path: "../base_gpio"),
         .package(name: "NvidiaJetsonGPIO", path: "../nvidia_jetson_gpio")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "RobotController",
-            dependencies: ["NvidiaJetsonGPIO"]),
+            name: "RobotControllerBase",
+            dependencies: ["BaseGPIO"]
+        ),
+        .target(
+            name: "MockRobotController",
+            dependencies: ["RobotControllerBase", "BaseGPIO"]
+        ),
+        .target(
+            name: "RemoteServer",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                "RemoteProtocol",
+                "RobotControllerBase",
+                "BaseGPIO"
+            ],
+            swiftSettings: [
+                // Enable better optimizations when building in Release configuration. Despite the use of
+                // the `.unsafeFlags` construct required by SwiftPM, this flag is recommended for Release
+                // builds. See <https://github.com/swift-server/guides#building-for-production> for details.
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+            ]
+        ),
+        .target(
+            name: "Run",
+            dependencies: ["MockRobotController", "RemoteServer"]
+        ),
         .testTarget(
             name: "RobotControllerTests",
-            dependencies: ["RobotController"]),
+            dependencies: ["RobotControllerBase"]),
     ]
 )
+/*
+var supportedImpls: [Target.Dependency] = ["MockImpl"]
+
+package.targets.append(.target(
+    name: "MockImpl",
+    dependencies: ["RobotControllerBase", "BaseGPIO"]
+))
+
+package.targets.append(.target(
+    name: "RobotController",
+    dependencies: ["RobotControllerBase"] + supportedImpls)
+)*/
