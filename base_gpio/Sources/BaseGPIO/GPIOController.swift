@@ -1,4 +1,3 @@
 public protocol GPIOController {
-    associatedtype GPIOPinId: GPIOPinIdProtocol
-    var layout: GPIOPinLayout<GPIOPinId> { get }
+    var layout: GPIOPinLayout { get }
 }

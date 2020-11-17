@@ -1,17 +1,18 @@
 public class MockGPIOController: GPIOController {
-  public var layout: GPIOPinLayout<GPIOPinId> {
+  public var layout: GPIOPinLayout {
     .column([
-      .pin(.Pin1)
+      .pin(PinId.Pin1)
     ])
   }
 
-  public init() {}
-
-  public subscript(pinId: GPIOPinId) -> AnyGPIOPinState {
-    return AnyGPIOPinState(id: pinId.description, direction: .Input)
+  public init() {
   }
 
-  public enum GPIOPinId: String, GPIOPinIdProtocol {
+  public subscript(pinId: PinId) -> GPIOPinState {
+    return MockGPIOPinState(id: pinId, direction: .Input)
+  }
+
+  public enum PinId: String, GPIOPinId {
     case Pin1, Pin2
 
     public init(_ rawValue: String) {
@@ -19,7 +20,7 @@ public class MockGPIOController: GPIOController {
     }
 
     public var description: String {
-      rawValue
+      rawValue  
     }
   }
 }

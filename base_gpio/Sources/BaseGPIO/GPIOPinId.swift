@@ -1,4 +1,5 @@
-public protocol GPIOPinIdProtocol: LosslessStringConvertible {
+public protocol GPIOPinId: LosslessStringConvertible {
+
 }
 
-extension String: GPIOPinIdProtocol {}
+extension String: GPIOPinId {}
