@@ -9,7 +9,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "BaseGPIO",
-            targets: ["BaseGPIO", "Mock"]),
+            targets: ["BaseGPIO"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,9 +21,6 @@ let package = Package(
         .target(
             name: "BaseGPIO",
             dependencies: []),
-        .target(
-            name: "Mock",
-            dependencies: ["BaseGPIO"]),
         .testTarget(
             name: "BaseGPIOTests",
             dependencies: ["BaseGPIO"]),
