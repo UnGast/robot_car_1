@@ -1,6 +1,7 @@
 import SwiftGUI
 import Dispatch
 import Combine
+import BaseGPIO
 
 public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
   public init() {
@@ -12,13 +13,16 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
 
     switch action {
     case let .Connect(host, port):
-      ConnectionManager.setup(Connection(host: host, port: port)) { [unowned self] in
+      ConnectionManager.setup(Connection(host: host, port: port), self) { [unowned self] in
         dispatch(.SetConnection(connection: $0))
       }
     case let .SetConnection(connection):
       newState.connection = connection
     case .Disconnect:
       newState.connection = nil
+
+    case let .SetGPIOPinLayout(layout):
+      newState.gpioPinLayout = layout
     }
 
     return newState
@@ -27,6 +31,8 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
 
 public struct StoreState {
   public var connection: Connection? = nil
+
+  public var gpioPinLayout: GPIOPinLayout? = nil
 }
 
 public class StoreGetters: ReduxGetters<StoreState> {
@@ -37,4 +43,6 @@ public enum StoreAction {
   case Connect(host: String, port: UInt)
   case SetConnection(connection: Connection)
   case Disconnect
+
+  case SetGPIOPinLayout(_ layout: GPIOPinLayout)
 }

@@ -3,9 +3,11 @@ import RemoteProtocol
 import Foundation
 
 public class RemoteProtocolClientImpl: RemoteProtocolClient {
+  private let store: Store
   private let socket: WebSocket
 
-  public init(_ socket: WebSocket) {
+  public init(_ store: Store, _ socket: WebSocket) {
+    self.store = store
     self.socket = socket
   }
 
@@ -24,5 +26,11 @@ public class RemoteProtocolClientImpl: RemoteProtocolClient {
 
   public func handle(_ message: RemoteProtocolServerMessage) {
     print("handle", message)
+    switch message {
+    case let message as RemoteProtocol.ServerGPIOStateMessage:
+      store.dispatch(.SetGPIOPinLayout(message.layout))
+    default:
+      break
+    }
   }
 }
