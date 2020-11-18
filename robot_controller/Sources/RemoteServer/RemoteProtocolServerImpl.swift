@@ -18,7 +18,7 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
       handle(message as! RemoteProtocolClientMessage)
     }
     send(RemoteProtocol.ServerHandshakeMessage(serverState: .Ok))
-    send(RemoteProtocol.ServerGPIOStateMessage(layout: robotController.gpioController.layout))
+    send(RemoteProtocol.ServerGPIOStateMessage(headers: robotController.gpioController.headers))
   }
 
   public func send<M: RemoteProtocolServerMessage>(_ message: M) {

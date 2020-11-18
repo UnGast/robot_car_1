@@ -1,4 +1,4 @@
-public struct GPIOHeader {
+public struct GPIOHeader: Codable {
   public var pinRoles: [String: [GPIOHeaderPinRole]]
   public var layout: GPIOHeaderLayout
 

@@ -1,6 +1,6 @@
 import BaseGPIO
 
-extension GPIOPinLayout: Codable {
+extension GPIOHeaderLayout: Codable {
   public enum CodingKeys: String, CodingKey {
     case typeRow, typeColumn, typePin, children, pinId
   }
@@ -27,10 +27,10 @@ extension GPIOPinLayout: Codable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     if let _ = try? container.decode(Bool.self, forKey: .typeRow) {
-      let children = try container.decode([GPIOPinLayout].self, forKey: .children)
+      let children = try container.decode([GPIOHeaderLayout].self, forKey: .children)
       self = .row(children)
     } else if let _ = try? container.decode(Bool.self, forKey: .typeColumn) {
-      let children = try container.decode([GPIOPinLayout].self, forKey: .children)
+      let children = try container.decode([GPIOHeaderLayout].self, forKey: .children)
       self = .column(children)
     } else if let _ = try? container.decode(Bool.self, forKey: .typePin) {
       let id = try container.decode(String.self, forKey: .pinId)

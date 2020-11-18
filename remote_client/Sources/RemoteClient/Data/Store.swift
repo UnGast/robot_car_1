@@ -21,8 +21,8 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
     case .Disconnect:
       newState.connection = nil
 
-    case let .SetGPIOPinLayout(layout):
-      newState.gpioPinLayout = layout
+    case let .SetGPIOHeaders(headers):
+      newState.gpioHeaders = headers
     }
 
     return newState
@@ -32,7 +32,7 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
 public struct StoreState {
   public var connection: Connection? = nil
 
-  public var gpioPinLayout: GPIOPinLayout? = nil
+  public var gpioHeaders: [GPIOHeader]? = nil
 }
 
 public class StoreGetters: ReduxGetters<StoreState> {
@@ -44,5 +44,5 @@ public enum StoreAction {
   case SetConnection(connection: Connection)
   case Disconnect
 
-  case SetGPIOPinLayout(_ layout: GPIOPinLayout)
+  case SetGPIOHeaders(_ headers: [GPIOHeader])
 }

@@ -6,7 +6,7 @@ public class GPIOView: SingleChildWidget {
   private var store: Store
 
   @ComputedProperty
-  private var gpioPinLayout: GPIOPinLayout?
+  private var gpioHeaders: [GPIOHeader]?
 
   public init() {
     super.init()
@@ -14,33 +14,43 @@ public class GPIOView: SingleChildWidget {
   }
 
   private func setupStoreBindings() {
-    _gpioPinLayout = ComputedProperty([store.$state.any]) { [unowned self] in
-      store.state.gpioPinLayout
+    _gpioHeaders = ComputedProperty([store.$state.any]) { [unowned self] in
+      store.state.gpioHeaders
     }
   }
 
   override public func buildChild() -> Widget {
-    ObservingBuilder($gpioPinLayout) { [unowned self] in
-      if let layout = gpioPinLayout {
-        buildGPIOPinLayout(layout)
+    ObservingBuilder($gpioHeaders) { [unowned self] in
+      if let headers = gpioHeaders {
+        buildGPIOHeaders(headers)
       } else {
         Text("no GPIO data available")
       }
     }
   }
 
-  @WidgetBuilder private func buildGPIOPinLayout(_ layout: GPIOPinLayout) -> Widget {
+  @WidgetBuilder private func buildGPIOHeaders(_ headers: [GPIOHeader]) -> Widget {
+    Column { [unowned self] in
+      headers.map { buildGPIOHeaderLayout($0.layout) }
+    }
+  }
+
+  @WidgetBuilder private func buildGPIOHeaderLayout(_ layout: GPIOHeaderLayout) -> Widget {
     switch layout {
     case let .pin(id):
-      Text("PIN " + id.description)
+      buildPin(id)
     case let .row(children):
       Row { [unowned self] in
-        children.map { buildGPIOPinLayout($0) }
+        children.map {buildGPIOHeaderLayout($0) }
       }
     case let .column(children):
       Column { [unowned self] in
-        children.map { buildGPIOPinLayout($0) }
+        children.map {buildGPIOHeaderLayout($0) }
       }
     }
+  }
+
+  @WidgetBuilder private func buildPin(_ id: String) -> Widget {
+    Text("PIN" + id.description)
   }
 }

@@ -9,7 +9,7 @@ var package = Package(
     products: [
         .executable(
             name: "RobotControllerRun",
-            targets: ["Run"]
+            targets: ["RobotControllerRun"]
         ),
         .library(
             name: "RobotController",
@@ -46,7 +46,7 @@ var package = Package(
             ]
         ),
         .target(
-            name: "Run",
+            name: "RobotControllerRun",
             dependencies: ["MockRobotController", "RemoteServer"]
         ),
         .testTarget(

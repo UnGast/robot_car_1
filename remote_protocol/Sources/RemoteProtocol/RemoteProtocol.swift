@@ -43,10 +43,10 @@ public enum RemoteProtocol {
     }
 
     public struct ServerGPIOStateMessage: RemoteProtocolServerMessage {
-        public var layout: GPIOPinLayout
+        public var headers: [GPIOHeader]
 
-        public init(layout: GPIOPinLayout) {
-            self.layout = layout
+        public init(headers: [GPIOHeader]) {
+            self.headers = headers
         }
     }
 

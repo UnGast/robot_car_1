@@ -65,6 +65,8 @@ public class ConnectionView: SingleChildWidget {
   }
 
   private func checkConnect() {
-    store.dispatch(.Connect(host: "localhost", port: 8080))
+    if let port = UInt(rawPort) {
+      store.dispatch(.Connect(host: rawHost, port: port))
+    }
   }
 }

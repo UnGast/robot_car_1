@@ -5,6 +5,7 @@ public class RemoteClientApp: WidgetsApp<SDL2OpenGL3NanoVGSystem, SDL2OpenGL3Nan
     super.init(system: try! SDL2OpenGL3NanoVGSystem())
 
     let store = Store()
+    store.dispatch(.Connect(host: "localhost", port: 8080))
 
     let guiRoot = Root(rootWidget: DependencyProvider(
       provide: [Dependency(store)]) {
