@@ -12,7 +12,7 @@ public class MockGPIOController: GPIOController {
   public init() {
   }
 
-  public subscript<Id: GPIOHeaderPinId>(gpio id: Id) -> GPIOPinState {
+  public subscript(gpio id: UInt) -> GPIOPinState {
     get { GPIOPinState(id: id, direction: .input, value: .low) }
     set { return }
   }
@@ -28,6 +28,4 @@ public class MockGPIOController: GPIOController {
       rawValue  
     }
   }*/
-  public static let gpio1 = "2"
-  public static let gpio2 = "3"
 }

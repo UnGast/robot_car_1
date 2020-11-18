@@ -13,12 +13,13 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(name: "BaseGPIO", path: "../base_gpio")
+        .package(name: "BaseGPIO", path: "../base_gpio"),
+        .package(url: "https://github.com/mxcl/Path.swift.git", from: "1.2.0")
     ],
     targets: [
         .target(
             name: "NvidiaJetsonGPIO",
-            dependencies: ["BaseGPIO"]),
+            dependencies: ["BaseGPIO", .product(name: "Path", package: "Path.swift")]),
         .target(
             name: "Run",
             dependencies: ["NvidiaJetsonGPIO"]
