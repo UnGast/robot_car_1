@@ -1,3 +1,5 @@
 public protocol GPIOController {
-    var layout: GPIOPinLayout { get }
+    var headers: [GPIOHeader] { get }
+
+    subscript<Id: GPIOHeaderPinId>(gpio gpio: Id) -> GPIOPinState { get set }
 }
