@@ -7,5 +7,5 @@ public enum GPIOHeaderPinRole {
   case uartTx(_ id: UInt)
   case uartRx(_ id: UInt)
   case uartRts(_ id: UInt)
-  case i2sClk(_ id: Int)
+  case i2sClk(_ id: UInt)
 }

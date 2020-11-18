@@ -33,7 +33,7 @@ extension GPIOHeaderLayout: Codable {
       let children = try container.decode([GPIOHeaderLayout].self, forKey: .children)
       self = .column(children)
     } else if let _ = try? container.decode(Bool.self, forKey: .typePin) {
-      let id = try container.decode(String.self, forKey: .pinId)
+      let id = try container.decode(UInt.self, forKey: .pinId)
       self = .pin(id)
     } else {
       throw DecodingError.dataCorrupted(DecodingError.Context(

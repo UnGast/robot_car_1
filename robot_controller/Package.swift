@@ -17,6 +17,7 @@ var package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
         .package(name: "RemoteProtocol", path: "../remote_protocol"),
         .package(name: "BaseGPIO", path: "../base_gpio"),
         .package(name: "NvidiaJetsonGPIO", path: "../nvidia_jetson_gpio")
@@ -47,7 +48,7 @@ var package = Package(
         ),
         .target(
             name: "RobotControllerRun",
-            dependencies: ["MockRobotController", "RemoteServer"]
+            dependencies: ["MockRobotController", "RemoteServer", .product(name: "ArgumentParser", package: "swift-argument-parser")]
         ),
         .testTarget(
             name: "RobotControllerTests",

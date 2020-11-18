@@ -1,11 +1,24 @@
+import ArgumentParser
 import RemoteServer
 import MockRobotController
 
-let controller = MockRobotController()
+struct Serve: ParsableCommand {
+  @Option(name: .shortAndLong)
+  var host: String?
 
-let server = RemoteServer(controller: controller)
+  @Option(name: .shortAndLong)
+  var port: UInt?
 
-try server.serve()
+  func run() throws {
+    let controller = MockRobotController()
+
+    let server = RemoteServer(controller: controller, host: host, port: port)
+
+    try server.serve()
+  }
+}
+
+Serve.main()
 /*
 var env = try Environment.detect()
 try LoggingSystem.bootstrap(from: &env)

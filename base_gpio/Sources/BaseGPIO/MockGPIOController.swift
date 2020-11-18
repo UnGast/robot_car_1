@@ -1,20 +1,19 @@
 public class MockGPIOController: GPIOController {
   public let headers: [GPIOHeader] = [
     GPIOHeader(pinRoles: [
-      "1": [.voltage(3)],
-      "2": [.gpio(1)]
+      1: [.voltage(3)],
+      2: [.gpio(1)]
     ], layout: .row([
-      .pin("1"),
-      .pin("2")
+      .pin(1),
+      .pin(2)
     ]))
   ]
 
   public init() {
   }
 
-  public subscript(gpio id: UInt) -> GPIOPinState {
-    get { GPIOPinState(id: id, direction: .input, value: .low) }
-    set { return }
+  public func getPinState(gpioId: UInt) -> GPIOPinState {
+    GPIOPinState(id: gpioId, direction: .input, value: .low)
   }
 
   /*public enum GPIO: String, GPIOPinId {
