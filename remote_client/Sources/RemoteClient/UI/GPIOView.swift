@@ -50,7 +50,33 @@ public class GPIOView: SingleChildWidget {
     }
   }
 
-  @WidgetBuilder private func buildPin(_ id: String) -> Widget {
-    Text("PIN" + id.description)
+  private func buildPin(_ pinId: UInt) -> Widget {
+    let roles = gpioHeaders!.flatMap { $0.pinRoles[pinId] }.flatMap { $0 }
+    return Border(all: 1, color: .Grey) {
+      Background(fill: .White) {
+        Padding(all: 16) {
+          Row {
+            { () -> Widget in
+              for role in roles {
+                switch role {
+                case let .gpio(gpioId):
+                  return Text("GPIO \(gpioId)")
+                case let .voltage(level):
+                  return Text("\(level) V")
+                case .gnd:
+                  return Text("GND")
+                default:
+                  return Space(.zero)
+                }
+              }
+
+              return Space(.zero)
+            }()
+
+            Text("PIN \(pinId)")
+          }
+        }
+      }
+    }
   }
 }

@@ -34,8 +34,27 @@ extension GPIOHeaderPinRole: Codable {
 
     if let level = try? values.decode(Double.self, forKey: .voltage) {
       self = .voltage(level)
-    } else {
+    } else if let id = try? values.decode(UInt.self, forKey: .gpio) {
+      self = .gpio(id)
+    } else if let id = try? values.decode(UInt.self, forKey: .i2cSda) {
+      self = .i2cSda(id)
+    } else if let id = try? values.decode(UInt.self, forKey: .i2cScl) {
+      self = .i2cScl(id)
+    } else if let _ = try? values.decode(Bool.self, forKey: .gnd) {
       self = .gnd
+    } else if let id = try? values.decode(UInt.self, forKey: .uartTx) {
+      self = .uartTx(id)
+    } else if let id = try? values.decode(UInt.self, forKey: .uartRx) {
+      self = .uartRx(id)
+    } else if let id = try? values.decode(UInt.self, forKey: .uartRts) {
+      self = .uartRts(id)
+    } else if let id = try? values.decode(UInt.self, forKey: .i2sClk) {
+      self = .i2sClk(id)
+    } else {
+      throw DecodingError.dataCorrupted(DecodingError.Context(
+        codingPath: values.codingPath,
+        debugDescription: "Unable to decode because no pin role is contained in the encoded values."
+      ))
     }
   }
 }
