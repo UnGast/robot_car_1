@@ -1,5 +1,8 @@
 // swift-tools-version:5.3
 import PackageDescription
+import Foundation
+
+print("ARGS", CommandLine.arguments)
 
 var package = Package(
     name: "RobotController",
@@ -8,8 +11,12 @@ var package = Package(
     ],
     products: [
         .executable(
-            name: "RobotControllerRun",
-            targets: ["RobotControllerRun"]
+            name: "NvidiaJetsonNanoRobotController",
+            targets: ["NvidiaJetsonNanoRobotController"]
+        ),
+        .executable(
+            name: "MockRobotController",
+            targets: ["MockRobotController"]
         ),
         .library(
             name: "RobotController",
@@ -28,10 +35,6 @@ var package = Package(
             dependencies: ["BaseGPIO"]
         ),
         .target(
-            name: "MockRobotController",
-            dependencies: ["RobotControllerBase", "BaseGPIO"]
-        ),
-        .target(
             name: "RemoteServer",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
@@ -47,8 +50,16 @@ var package = Package(
             ]
         ),
         .target(
-            name: "RobotControllerRun",
-            dependencies: ["MockRobotController", "RemoteServer", .product(name: "ArgumentParser", package: "swift-argument-parser")]
+            name: "RobotControllerApplication",
+            dependencies: ["RobotControllerBase", "RemoteServer", .product(name: "ArgumentParser", package: "swift-argument-parser")]
+        ),
+        .target(
+            name: "MockRobotController",
+            dependencies: ["RobotControllerBase", "BaseGPIO", "RobotControllerApplication"]
+        ),
+        .target(
+            name: "NvidiaJetsonNanoRobotController",
+            dependencies: ["RobotControllerBase", "NvidiaJetsonGPIO", "RobotControllerApplication"]
         ),
         .testTarget(
             name: "RobotControllerTests",

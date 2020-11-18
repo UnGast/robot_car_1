@@ -19,7 +19,7 @@ extension GPIOHeaderLayout: Codable {
       try array.encode(contentsOf: children)
     case .pin(let id):
       try container.encode(true, forKey: .typePin)
-      try container.encode(id.description, forKey: .pinId)
+      try container.encode(id, forKey: .pinId)
     }
   }
 
