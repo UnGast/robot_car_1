@@ -73,7 +73,10 @@ public class GPIOView: SingleChildWidget {
                       Row {
                         Button {
                           Text("input")
+                        } onClick: { _ in
+                          store.dispatch(.SetGPIODirection(gpioId: gpioId, direction: .input))
                         }
+
                         Button {
                           Text("output")
                         } onClick: { _ in
@@ -84,10 +87,14 @@ public class GPIOView: SingleChildWidget {
                           if state.direction == .output {
                             Button {
                               Text("value: 1")
+                            } onClick: { _ in
+                              store.dispatch(.SetGPIOValue(gpioId: gpioId, value: .high))
                             }
 
                             Button {
                               Text("value: 0")
+                            } onClick: { _ in
+                              store.dispatch(.SetGPIOValue(gpioId: gpioId, value: .low))
                             }
                           } else {
                             Text("value: \(state.value)")

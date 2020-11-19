@@ -29,6 +29,9 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
     case let .SetGPIODirection(gpioId, direction):
       ConnectionManager.getClient(for: state.connection!)
         .send(RemoteProtocol.ClientSetGPIODirectionMessage(gpioId: gpioId, direction: direction))
+    case let .SetGPIOValue(gpioId, value):
+      ConnectionManager.getClient(for: state.connection!)
+        .send(RemoteProtocol.ClientSetGPIOValueMessage(gpioId: gpioId, value: value))
     }
 
     return newState
@@ -55,4 +58,5 @@ public enum StoreAction {
   case SetGPIOHeaders(_ headers: [GPIOHeader])
   case SetGPIOStates(_ states: [UInt: GPIOPinState])
   case SetGPIODirection(gpioId: UInt, direction: GPIOPinDirection)
+  case SetGPIOValue(gpioId: UInt, value: GPIOPinValue)
 }

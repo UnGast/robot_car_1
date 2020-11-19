@@ -33,6 +33,9 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
       case let message as RemoteProtocol.ClientSetGPIODirectionMessage:
         try robotController.gpioController.set(gpioId: message.gpioId, direction: message.direction)
         send(RemoteProtocol.ServerGPIOStatesMessage(states: robotController.gpioController.getPinStates()))
+      case let message as RemoteProtocol.ClientSetGPIOValueMessage:
+        try robotController.gpioController.set(gpioId: message.gpioId, value: message.value)
+        send(RemoteProtocol.ServerGPIOStatesMessage(states: robotController.gpioController.getPinStates()))
       default:
         break
       }
