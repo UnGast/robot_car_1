@@ -51,7 +51,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
     ]
 
     // map id of gpio pin to id of pin on header
-    private var gpioPinHeaderIdMap: [UInt: UInt] {
+    private var gpioIdHeaderIdMap: [UInt: UInt] {
         var map = [UInt: UInt]()
         for header in headers {
             for (pinId, pinRoles) in header.pinRoles {
@@ -75,7 +75,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
     public init() {}
 
     private func ensureGPIOPinEnabled(_ gpioId: UInt) throws {
-        guard let _ = gpioPinHeaderIdMap[gpioId] else {
+        guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
 
@@ -121,7 +121,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
     }
 
     public func getDirection(gpioId: UInt) -> GPIOPinDirection {
-        guard let _ = gpioPinHeaderIdMap[gpioId] else {
+        guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
         
@@ -144,7 +144,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
     }
 
     public func getValue(gpioId: UInt) -> GPIOPinValue {
-        guard let _ = gpioPinHeaderIdMap[gpioId] else {
+        guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
 
@@ -164,7 +164,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
     }
 
     public func getPinState(gpioId: UInt) -> GPIOPinState { 
-        guard let _ = gpioPinHeaderIdMap[gpioId] else {
+        guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
 
@@ -174,21 +174,12 @@ public class NvidiaJetsonGPIOController: GPIOController {
         return GPIOPinState(id: gpioId, direction: direction, value: value)
     }
 
-    /*public enum GPIO: String, CaseIterable {
-        case p216 = "216", p50 = "50"
-
-        public headerPinId: String {
-            switch self {
-            case p216:
-                return "7"
-            case p50:
-                return "11"
-            }
+    public func getPinStates() -> [GPIOPinState] {
+        gpioIdHeaderIdMap.keys.reduce(into: [UInt: GPIOPinState]) {
+            $0[$1] = getPinState(gpioId: $1)
         }
-    }*/
-    //public static let GPIO216 = "7"
-    //public static let GPIO50 = "11"//, GPIO14, GPIO194, GPIO16, GPIO17, GPIO18, GPIO149, GPIO200, GPPIO38, GPIO76, GPIO12, GPIO79, GPIO232, GPIO15, GPIO13, GPIO19, GPIO20, GPIO168, GPIO51, GPIO77, GPIO78 
-
+    }
+ 
     private func getGPIOPinPath(gpioId: UInt) -> Path {
         return Self.gpioBasePath/("gpio\(gpioId)")
     }

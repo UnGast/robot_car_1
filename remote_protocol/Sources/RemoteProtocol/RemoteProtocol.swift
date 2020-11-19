@@ -42,11 +42,19 @@ public enum RemoteProtocol {
         }
     }
 
-    public struct ServerGPIOStateMessage: RemoteProtocolServerMessage {
+    public struct ServerGPIOHeadersMessage: RemoteProtocolServerMessage {
         public var headers: [GPIOHeader]
 
         public init(headers: [GPIOHeader]) {
             self.headers = headers
+        }
+    }
+
+    public struct ServerGPIOStatesMessage: RemoteProtocolServerMessage {
+        public var states: [UInt: GPIOPinState]
+
+        public init(states: [UInt: GPIOPinState]) {
+            self.states = states
         }
     }
 
@@ -58,10 +66,22 @@ public enum RemoteProtocol {
         }
     }
 
+    public struct ClientSetGPIODirectionMessage: RemoteProtocolClientMessage {
+        public var gpioId: UInt
+        public var direction: GPIOPinDirection
+
+        public init(gpioId: UInt, direction: GPIOPinDirection) {
+            self.gpioId = gpioId
+            self.direction = direction
+        }
+    }
+
     public static let messageTypes: [String: RemoteProtocolMessage.Type] = [
         "ServerHandshakeMessage": ServerHandshakeMessage.self,
-        "ServerGPIOStateMessage": ServerGPIOStateMessage.self,
-        "ClientHandshakeMessage": ClientHandshakeMessage.self
+        "ServerGPIOStatesMessage": ServerGPIOStatesMessage.self,
+        "ServerGPIOHeadersMessage": ServerGPIOHeadersMessage.self,
+        "ClientHandshakeMessage": ClientHandshakeMessage.self,
+        "ClientSetGPIODirectionMessage": ClientSetGPIODirectionMessage.self
     ]
 
     public static func deserializeMessage(_ data: String) -> RemoteProtocolMessage {

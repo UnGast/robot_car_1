@@ -1,10 +1,10 @@
 public protocol GPIOPinStateProtocol {
   var id: UInt { get }
-  var direction: GPIOPinDirection { get set }
+  var direction: GPIOPinDirection { get set }
   var value: GPIOPinValue { get set }
 }
 
-public struct GPIOPinState: GPIOPinStateProtocol {
+public struct GPIOPinState: GPIOPinStateProtocol, Codable {
   public var id: UInt
   public var direction: GPIOPinDirection
   public var value: GPIOPinValue

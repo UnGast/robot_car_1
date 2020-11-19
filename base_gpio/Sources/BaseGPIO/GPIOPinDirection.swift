@@ -1,3 +1,3 @@
-public enum GPIOPinDirection: String {
+public enum GPIOPinDirection: String, Codable {
   case input, output
 }

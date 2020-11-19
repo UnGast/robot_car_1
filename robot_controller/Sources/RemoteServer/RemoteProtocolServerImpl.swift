@@ -18,7 +18,8 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
       handle(message as! RemoteProtocolClientMessage)
     }
     send(RemoteProtocol.ServerHandshakeMessage(serverState: .Ok))
-    send(RemoteProtocol.ServerGPIOStateMessage(headers: robotController.gpioController.headers))
+    send(RemoteProtocol.ServerGPIOHeadersMessage(headers: robotController.gpioController.headers))
+    send(RemoteProtocol.ServerGPIOStatesMessage(states: robotController.gpioController.getPinStates()))
   }
 
   public func send<M: RemoteProtocolServerMessage>(_ message: M) {
@@ -27,5 +28,16 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
 
   public func handle(_ message: RemoteProtocolClientMessage) {
     print("handle", message)
+    do {
+      switch message {
+      case let message as RemoteProtocol.ClientSetGPIODirectionMessage:
+        try robotController.gpioController.set(gpioId: message.gpioId, direction: message.direction)
+        send(RemoteProtocol.ServerGPIOStatesMessage(states: robotController.gpioController.getPinStates()))
+      default:
+        break
+      }
+    } catch {
+      print("error occurred while handling message: \(error)")
+    }
   }
 }
