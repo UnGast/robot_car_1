@@ -7,9 +7,10 @@ public class GPIOView: SingleChildWidget {
 
   @ComputedProperty
   private var gpioHeaders: [GPIOHeader]?
-
   @ComputedProperty
   private var gpioStates: [UInt: GPIOPinState]?
+  @ComputedProperty
+  private var gpioConfigurationAllowed: Bool
 
   public init() {
     super.init()
@@ -23,12 +24,30 @@ public class GPIOView: SingleChildWidget {
     _gpioStates = ComputedProperty([store.$state.any]) { [unowned self] in
       store.state.gpioStates
     }
+    _gpioConfigurationAllowed = ComputedProperty([store.$state.any]) { [unowned self] in
+      store.state.gpioConfigurationAllowed
+    }
   }
 
   override public func buildChild() -> Widget {
-    ObservingBuilder($gpioHeaders, $gpioStates) { [unowned self] in
+    ObservingBuilder($gpioHeaders, $gpioStates, $gpioConfigurationAllowed) { [unowned self] in
       if let headers = gpioHeaders {
-        buildGPIOHeaders(headers)
+        Column {
+          Row {
+            Text("allow configuration:")
+
+            ToggleButton(
+              leftValue: true,
+              rightValue: false,
+              bind: MutableComputedProperty([store.$state.any], compute: {
+                store.state.gpioConfigurationAllowed
+              }, apply: {
+                store.dispatch(.SetGPIOConfigurationAllowed($0))
+              }).binding)
+          }
+
+          buildGPIOHeaders(headers)
+        }
       } else {
         Text("no GPIO data available")
       }
@@ -66,47 +85,35 @@ public class GPIOView: SingleChildWidget {
               for role in roles {
                 switch role {
                 case let .gpio(gpioId):
-                  return MouseArea {
-                    Column {
-                      Text("GPIO \(gpioId)")
+                  return Column {
+                    Text("GPIO \(gpioId)")
 
-                      Row {
-                        Button {
-                          Text("input")
-                        } onClick: { _ in
-                          store.dispatch(.SetGPIODirection(gpioId: gpioId, direction: .input))
-                        }
+                    Row {
+                      ToggleButton(
+                        leftValue: GPIOPinDirection.input,
+                        rightValue: GPIOPinDirection.output,
+                        bind: MutableComputedProperty([store.$state.any], compute: {
+                            store.state.gpioStates?[gpioId]?.direction ?? .input
+                          }, apply: {
+                            store.dispatch(.SetGPIODirection(gpioId: gpioId, direction: $0))
+                          }).binding)
 
-                        Button {
-                          Text("output")
-                        } onClick: { _ in
-                          store.dispatch(.SetGPIODirection(gpioId: gpioId, direction: .output))
-                        }
-
-                        if let state = gpioStates?[gpioId] {
-                          if state.direction == .output {
-                            Button {
-                              Text("value: 1")
-                            } onClick: { _ in
-                              store.dispatch(.SetGPIOValue(gpioId: gpioId, value: .high))
-                            }
-
-                            Button {
-                              Text("value: 0")
-                            } onClick: { _ in
-                              store.dispatch(.SetGPIOValue(gpioId: gpioId, value: .low))
-                            }
-                          } else {
-                            Text("value: \(state.value)")
-                          }
+                      if let state = gpioStates?[gpioId] {
+                        if state.direction == .output {
+                          ToggleButton(
+                            leftValue: GPIOPinValue.low,
+                            rightValue: GPIOPinValue.high,
+                            bind: MutableComputedProperty([store.$state.any], compute: {
+                                store.state.gpioStates?[gpioId]?.value ?? .low
+                              }, apply: {
+                                store.dispatch(.SetGPIOValue(gpioId: gpioId, value: $0))
+                              }).binding,
+                            leftChild: { Text("off") },
+                            rightChild: { Text("on") })
+                        } else {
+                          Text("value: \(state.value)")
                         }
                       }
-                    }
-                  } onClick: { _ in
-                    if let state = gpioStates?[gpioId], state.direction == .output {
-                      print("OUTPUT CLICK")
-                    } else {
-                      print("INPUT CLICK")
                     }
                   }
                 case let .voltage(level):

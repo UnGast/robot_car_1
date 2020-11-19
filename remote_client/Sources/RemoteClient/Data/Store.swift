@@ -22,16 +22,26 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
     case .Disconnect:
       newState.connection = nil
 
+    case let .SetGPIOConfigurationAllowed(allowed):
+      newState.gpioConfigurationAllowed = allowed
     case let .SetGPIOHeaders(headers):
       newState.gpioHeaders = headers
     case let .SetGPIOStates(states):
       newState.gpioStates = states
     case let .SetGPIODirection(gpioId, direction):
-      ConnectionManager.getClient(for: state.connection!)
-        .send(RemoteProtocol.ClientSetGPIODirectionMessage(gpioId: gpioId, direction: direction))
+      if newState.gpioConfigurationAllowed {
+        ConnectionManager.getClient(for: state.connection!)
+          .send(RemoteProtocol.ClientSetGPIODirectionMessage(gpioId: gpioId, direction: direction))
+      } else {
+        print("warn: tried to set gpio direction when configuration is not allowed")
+      }
     case let .SetGPIOValue(gpioId, value):
-      ConnectionManager.getClient(for: state.connection!)
-        .send(RemoteProtocol.ClientSetGPIOValueMessage(gpioId: gpioId, value: value))
+      if newState.gpioConfigurationAllowed {
+        ConnectionManager.getClient(for: state.connection!)
+          .send(RemoteProtocol.ClientSetGPIOValueMessage(gpioId: gpioId, value: value))
+      } else {
+        print("warn: tried to set gpio value when configuration is not allowed")
+      }
     }
 
     return newState
@@ -41,6 +51,7 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreAction> {
 public struct StoreState {
   public var connection: Connection? = nil
 
+  public var gpioConfigurationAllowed: Bool = false
   public var gpioHeaders: [GPIOHeader]? = nil
   public var gpioStates: [UInt: GPIOPinState]? = nil
 }
@@ -55,6 +66,7 @@ public enum StoreAction {
   case SetConnection(connection: Connection)
   case Disconnect
 
+  case SetGPIOConfigurationAllowed(_ allowed: Bool)
   case SetGPIOHeaders(_ headers: [GPIOHeader])
   case SetGPIOStates(_ states: [UInt: GPIOPinState])
   case SetGPIODirection(gpioId: UInt, direction: GPIOPinDirection)
