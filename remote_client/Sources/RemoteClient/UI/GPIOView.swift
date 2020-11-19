@@ -42,7 +42,7 @@ public class GPIOView: SingleChildWidget {
               bind: MutableComputedProperty([store.$state.any], compute: {
                 store.state.gpioConfigurationAllowed
               }, apply: {
-                store.dispatch(.SetGPIOConfigurationAllowed($0))
+                store.commit(.SetGPIOConfigurationAllowed($0))
               }).binding)
           }
 

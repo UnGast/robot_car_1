@@ -28,9 +28,9 @@ public class RemoteProtocolClientImpl: RemoteProtocolClient {
     print("handle", message)
     switch message {
     case let message as RemoteProtocol.ServerGPIOStatesMessage:
-      store.dispatch(.SetGPIOStates(message.states))
+      store.commit(.SetGPIOStates(message.states))
     case let message as RemoteProtocol.ServerGPIOHeadersMessage:
-      store.dispatch(.SetGPIOHeaders(message.headers))
+      store.commit(.SetGPIOHeaders(message.headers))
     default:
       break
     }
