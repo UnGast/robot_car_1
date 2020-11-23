@@ -24,7 +24,8 @@ var package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
         .package(name: "RemoteProtocol", path: "../remote_protocol"),
         .package(name: "BaseGPIO", path: "../base_gpio"),
-        .package(name: "NvidiaJetsonGPIO", path: "../nvidia_jetson_gpio")
+        .package(name: "NvidiaJetsonGPIO", path: "../nvidia_jetson_gpio"),
+        .package(name: "GStreamer", path: "../swift-gstreamer")
     ],
     targets: [
         .target(
@@ -37,7 +38,8 @@ var package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 "RemoteProtocol",
                 "RobotControllerBase",
-                "BaseGPIO"
+                "BaseGPIO",
+                "GStreamer"
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of
@@ -48,7 +50,7 @@ var package = Package(
         ),
         .target(
             name: "RobotControllerApplication",
-            dependencies: ["RobotControllerBase", "RemoteServer", .product(name: "ArgumentParser", package: "swift-argument-parser")]
+            dependencies: ["RobotControllerBase", "RemoteServer", "GStreamer", .product(name: "ArgumentParser", package: "swift-argument-parser")]
         ),
         .target(
             name: "MockRobotController",

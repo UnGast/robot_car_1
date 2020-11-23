@@ -1,3 +1,6 @@
 [submodule "swift-gui"]
 	path = swift-gui
 	url = https://github.com/UnGast/swift-gui
+[submodule "swift-gstreamer"]
+	path = swift-gstreamer
+	url = https://github.com/UnGast/swift-gstreamer.git

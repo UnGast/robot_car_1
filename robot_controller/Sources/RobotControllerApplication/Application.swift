@@ -1,6 +1,7 @@
 import ArgumentParser
 import RemoteServer
 import RobotControllerBase
+import GStreamer
 
 public class RobotControllerApplication {
   private var robotController: RobotController
@@ -10,6 +11,8 @@ public class RobotControllerApplication {
   }
 
   public func start() throws {
+    GStreamer.initialize()
+
     var serveCommand = try Serve.parseAsRoot(nil) as! Serve
     try serveCommand.run()
 

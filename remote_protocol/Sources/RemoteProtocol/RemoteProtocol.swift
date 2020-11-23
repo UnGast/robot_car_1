@@ -58,6 +58,14 @@ public enum RemoteProtocol {
         }
     }
 
+    public struct ServerCameraInfoMessage: RemoteProtocolServerMessage {
+        public var cameras: [CameraInfo]
+
+        public init(cameras: [CameraInfo]) {
+            self.cameras = cameras
+        }
+    }
+
     public struct ClientHandshakeMessage: RemoteProtocolClientMessage {
         public var clientState: ClientState
 
@@ -90,6 +98,7 @@ public enum RemoteProtocol {
         "ServerHandshakeMessage": ServerHandshakeMessage.self,
         "ServerGPIOStatesMessage": ServerGPIOStatesMessage.self,
         "ServerGPIOHeadersMessage": ServerGPIOHeadersMessage.self,
+        "ServerCameraInfoMessage": ServerCameraInfoMessage.self,
         "ClientHandshakeMessage": ClientHandshakeMessage.self,
         "ClientSetGPIODirectionMessage": ClientSetGPIODirectionMessage.self,
         "ClientSetGPIOValueMessage": ClientSetGPIOValueMessage.self
