@@ -31,8 +31,10 @@ public class RemoteProtocolClientImpl: RemoteProtocolClient {
       store.commit(.SetGPIOStates(message.states))
     case let message as RemoteProtocol.ServerGPIOHeadersMessage:
       store.commit(.SetGPIOHeaders(message.headers))
+    case let message as RemoteProtocol.ServerCameraInfoMessage:
+      store.commit(.SetCameras(message.cameras))
     default:
-      break
+      print("Client received message type that was not handled! \(message)")
     }
   }
 }

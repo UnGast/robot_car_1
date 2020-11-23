@@ -1,4 +1,5 @@
 import SwiftGUI
+import GStreamer
 
 public class RemoteClientApp: WidgetsApp<SDL2OpenGL3NanoVGSystem, SDL2OpenGL3NanoVGWindow, SDL2OpenGL3NanoVGRenderer> {
   public init() {
@@ -23,6 +24,7 @@ public class RemoteClientApp: WidgetsApp<SDL2OpenGL3NanoVGSystem, SDL2OpenGL3Nan
 let app = RemoteClientApp()
 
 do {
+  GStreamer.initialize()
   try app.start()
 } catch {
   print("an error occurred when starting the app: \(error)")

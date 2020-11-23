@@ -13,11 +13,12 @@ let package = Package(
         .package(name: "SwiftGUI", path: "../swift-gui"),
         .package(url: "https://github.com/vapor/websocket-kit.git", from: "2.0.0"),
         .package(name: "RemoteProtocol", path: "../remote_protocol"),
-        .package(name: "BaseGPIO", path: "../base_gpio")
+        .package(name: "BaseGPIO", path: "../base_gpio"),
+        .package(name: "GStreamer", path: "../swift-gstreamer")
     ],
     targets: [
         .target(
             name: "RemoteClient",
-            dependencies: ["SwiftGUI", "RemoteProtocol", "BaseGPIO", .product(name: "WebSocketKit", package: "websocket-kit")]),
+            dependencies: ["SwiftGUI", "RemoteProtocol", "GStreamer", "BaseGPIO", .product(name: "WebSocketKit", package: "websocket-kit")]),
     ]
 )

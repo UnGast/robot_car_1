@@ -20,6 +20,9 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreMutation, StoreAct
       state.gpioHeaders = headers
     case let .SetGPIOStates(states):
       state.gpioStates = states
+
+    case let .SetCameras(cameras):
+      state.cameras = cameras
     }
   }
 
@@ -57,6 +60,8 @@ public struct StoreState {
   public var gpioConfigurationAllowed: Bool = false
   public var gpioHeaders: [GPIOHeader]? = nil
   public var gpioStates: [UInt: GPIOPinState]? = nil
+
+  public var cameras: [CameraInfo] = []
 }
 
 public class StoreGetters: ReduxGetters<StoreState> {
@@ -69,6 +74,8 @@ public enum StoreMutation {
   case SetGPIOConfigurationAllowed(_ allowed: Bool)
   case SetGPIOHeaders(_ headers: [GPIOHeader])
   case SetGPIOStates(_ states: [UInt: GPIOPinState])
+
+  case SetCameras(_ cameras: [CameraInfo])
 }
 
 public enum StoreAction {
