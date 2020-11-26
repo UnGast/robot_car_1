@@ -6,6 +6,9 @@ public class CameraView: SingleChildWidget {
   @Inject
   private var store: Store
 
+  @MutableProperty
+  private var streamingEnabled: Bool = false
+
   override public func buildChild() -> Widget {
     ObservingBuilder(store.$state.compute { $0.cameras }) { [unowned self] in
       Column {
@@ -15,13 +18,19 @@ public class CameraView: SingleChildWidget {
   }
 
   private func buildCamera(_ camera: CameraInfo) -> Widget {
-    Row { [unowned self] in
-      Text("Name: \(camera.name)")
+    Column { [unowned self] in
+      Row {
+        Text("Name: \(camera.name)")
 
-      Button {
-        Text("stream!")
-      } onClick: { _ in
-        stream(camera)
+        Button {
+          Text("stream!")
+        } onClick: { _ in
+          streamingEnabled = !streamingEnabled
+        }
+      }
+
+      ObservingBuilder($streamingEnabled.observable) {  
+        VideoView(stream: RemoteCameraVideoStream(camera: camera))
       }
     }
   }
@@ -32,7 +41,7 @@ public class CameraView: SingleChildWidget {
     let source = TcpClientSource(host: "127.0.0.1", port: camera.streamPort)
     let parser = H263Parse()
     let decoder = AVDecH263()
-    let sink = AutoVideoSink(sync: false)
+    let sink = AppSink()
 
     pipeline.add(source)
     pipeline.add(parser)

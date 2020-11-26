@@ -4,3 +4,9 @@
 [submodule "swift-gstreamer"]
 	path = swift-gstreamer
 	url = https://github.com/UnGast/swift-gstreamer.git
+[submodule "swift-gfx-math"]
+	path = swift-gfx-math
+	url = https://github.com/UnGast/swift-gfx-math
+[submodule "swift-gl-utils"]
+	path = swift-gl-utils
+	url = https://github.com/UnGast/swift-gl-utils.git
