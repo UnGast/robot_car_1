@@ -47,6 +47,24 @@
         }
       },
       {
+        "package": "GfxMath",
+        "repositoryURL": "https://github.com/UnGast/swift-gfx-math.git",
+        "state": {
+          "branch": "master",
+          "revision": "96b321df392368d8ee899038d5000dbdd5928e4f",
+          "version": null
+        }
+      },
+      {
+        "package": "GLUtils",
+        "repositoryURL": "https://github.com/UnGast/swift-gl-utils.git",
+        "state": {
+          "branch": "master",
+          "revision": "b04851b2c252c72c5bf50a69dde5514c9f386897",
+          "version": null
+        }
+      },
+      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {

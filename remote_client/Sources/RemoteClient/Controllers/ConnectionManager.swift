@@ -1,6 +1,5 @@
 import WebSocketKit
 import NIO
-import Combine
 import Dispatch
 
 public class ConnectionManager {
