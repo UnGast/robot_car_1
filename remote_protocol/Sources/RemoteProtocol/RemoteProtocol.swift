@@ -94,6 +94,14 @@ public enum RemoteProtocol {
         }
     }
 
+    public struct ClientRequestCameraStreamMessage: RemoteProtocolClientMessage {
+        public var cameraId: String
+
+        public init(cameraId: String) {
+            self.cameraId = cameraId
+        }
+    }
+
     public static let messageTypes: [String: RemoteProtocolMessage.Type] = [
         "ServerHandshakeMessage": ServerHandshakeMessage.self,
         "ServerGPIOStatesMessage": ServerGPIOStatesMessage.self,
@@ -101,7 +109,8 @@ public enum RemoteProtocol {
         "ServerCameraInfoMessage": ServerCameraInfoMessage.self,
         "ClientHandshakeMessage": ClientHandshakeMessage.self,
         "ClientSetGPIODirectionMessage": ClientSetGPIODirectionMessage.self,
-        "ClientSetGPIOValueMessage": ClientSetGPIOValueMessage.self
+        "ClientSetGPIOValueMessage": ClientSetGPIOValueMessage.self,
+        "ClientRequestCameraStreamMessage": ClientRequestCameraStreamMessage.self
     ]
 
     public static func deserializeMessage(_ data: String) -> RemoteProtocolMessage {

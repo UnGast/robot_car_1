@@ -30,7 +30,7 @@ var package = Package(
     targets: [
         .target(
             name: "RobotControllerBase",
-            dependencies: ["BaseGPIO"]
+            dependencies: ["BaseGPIO", "GStreamer"]
         ),
         .target(
             name: "RemoteServer",
@@ -54,7 +54,7 @@ var package = Package(
         ),
         .target(
             name: "MockRobotController",
-            dependencies: ["RobotControllerBase", "BaseGPIO", "RobotControllerApplication"]
+            dependencies: ["RobotControllerBase", "BaseGPIO", "RobotControllerApplication", "GStreamer"]
         ),
         .target(
             name: "NvidiaJetsonNanoRobotController",

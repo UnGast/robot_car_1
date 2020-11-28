@@ -12,7 +12,7 @@ open class AppSinkVideoStream: VideoStream {
   }
 
   override open func getCurrentFrame() -> UnsafeMutableBufferPointer<UInt8>? {
-    if let sample = sink.tryPullSample(timeout: 0.1) {
+    if let sample = sink.pullSample() {
       let buffer = sample.getBuffer()
       let map = buffer.getMap()
       

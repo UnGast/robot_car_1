@@ -49,6 +49,10 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreMutation, StoreAct
       } else {
         print("warn: tried to set gpio value when configuration is not allowed")
       }
+
+    case let .RequestCameraStream(cameraId):
+      ConnectionManager.getClient(for: state.connection!)
+        .send(RemoteProtocol.ClientRequestCameraStreamMessage(cameraId: cameraId))
     }
   }
 }
@@ -83,4 +87,6 @@ public enum StoreAction {
 
   case SetGPIODirection(gpioId: UInt, direction: GPIOPinDirection)
   case SetGPIOValue(gpioId: UInt, value: GPIOPinValue)
+
+  case RequestCameraStream(cameraId: String)
 }
