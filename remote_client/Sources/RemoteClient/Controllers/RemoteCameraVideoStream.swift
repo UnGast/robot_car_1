@@ -10,7 +10,7 @@ public class RemoteCameraVideoStream: AppSinkVideoStream {
     pipeline = Pipeline()
     bus = pipeline.getBus()
 
-    let source = TcpClientSource(host: "127.0.0.1", port: camera.streamPort!)
+    let source = TcpClientSource(host: camera.stream!.host, port: camera.stream!.port)
     let parser = H263Parse()
     let decoder = AVDecH263()
     let converter = VideoConvert()

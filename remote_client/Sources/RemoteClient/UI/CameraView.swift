@@ -26,7 +26,7 @@ public class CameraView: SingleChildWidget {
         }
       }
 
-      if camera.streamPort != nil {
+      if camera.stream != nil {
         VideoView(stream: RemoteCameraVideoStream(camera: camera))
       }
     }
