@@ -27,7 +27,7 @@ public class RemoteServer {
     }
 
     app.webSocket("") { [unowned self] req, ws in
-        let server = RemoteProtocolServerImpl(controller, ws)
+        let server = RemoteProtocolServerImpl(controller, ws, host)
         protocolServers.append(server)
         server.startCommunication()
     }

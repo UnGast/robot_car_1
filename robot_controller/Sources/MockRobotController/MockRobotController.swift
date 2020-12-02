@@ -12,6 +12,7 @@ public class MockRobotController: RobotController {
     let camera = cameras[cameraId]!
     let bin = GStreamer.Bin()
     let source = GStreamer.VideoTestSource()
+    source.isLive = true
     //source.setPattern(.white)
     let capsfilter = GStreamer.Capsfilter()
     return source
