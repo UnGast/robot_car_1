@@ -3,24 +3,42 @@ import GfxMath
 import GStreamer
 
 open class AppSinkVideoStream: VideoStream {
-  internal let sink: AppSink
+  internal let sink: GStreamer.AppSink
+  private let sinkPad: GStreamer.Pad
 
-  public init(sink: AppSink, size: ISize2) {
-    // TODO: read size from sink caps!
+  private var _size: ISize2 = .zero {
+    didSet {
+      onSizeChanged.invokeHandlers(size)
+    }
+  }
+  override open var size: ISize2 {
+    _size
+  }
+  private var sizeRetrieved: Bool = false
+
+  public init(sink: GStreamer.AppSink) {
     self.sink = sink
-    super.init(size: size)
+    self.sinkPad = sink.sinkPads[0]
   }
 
   override open func getCurrentFrame() -> Frame? {
     do {
       if try sink.getState() == .playing, let sample = sink.pullSample() {
+        // TODO: might need to listen for pad caps change --> update size!!
+        if !sizeRetrieved, let capsStructure = sinkPad.caps.getStructure(0) {
+          if let width = capsStructure.get("width", Int32.self),
+            let height = capsStructure.get("height", Int32.self) {
+              _size = ISize2(Int(width), Int(height))
+              sizeRetrieved = true
+          }
+        }
+
+        if !sizeRetrieved {
+          return nil
+        }
+
         // TODO: need to free memory
-        print("GOT SAMPLE")
-
         if let buffer = sample.getBuffer() {
-
-          print("GOT BUFFER")
-
           let map = buffer.getMap()
 
           var rawData: AnyRandomAccessCollection<UInt8>? = nil
@@ -51,5 +69,5 @@ open class AppSinkVideoStream: VideoStream {
     }
 
     return nil
-  } 
+  }
 }

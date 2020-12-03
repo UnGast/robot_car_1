@@ -6,6 +6,12 @@ public class VideoView: Widget {
 
   public init(stream: VideoStream) {
     self.stream = stream
+    super.init()
+    //self.debugLayout = true
+    _ = onDestroy(stream.onSizeChanged { [unowned self] _ in
+      invalidateBoxConfig()
+      invalidateRenderState()
+    })
   }
 
   override public func getBoxConfig() -> BoxConfig {
