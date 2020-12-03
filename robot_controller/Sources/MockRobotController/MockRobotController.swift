@@ -9,8 +9,6 @@ public class MockRobotController: RobotController {
   }
 
   override open func getCameraStreamSource(id cameraId: String) -> GStreamer.Element {
-    let camera = cameras[cameraId]!
-    let bin = GStreamer.Bin()
     let source = GStreamer.VideoTestSource()
     source.isLive = true
     //source.setPattern(.white)

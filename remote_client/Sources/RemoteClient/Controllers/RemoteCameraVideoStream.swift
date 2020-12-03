@@ -39,7 +39,7 @@ public class RemoteCameraVideoStream: AppSinkVideoStream {
     // TEST WIHT: gst-launch-1.0 -v videotestsrc is-live=true ! video/x-raw,width=1000,height=1000,framerate=30/1 ! videoscale ! videoconvert      ! x264enc bitrate=3000  ! rtph264pay ! udpsink host=127.0.0.1 port=5000
 
     pipeline = try! Pipeline(parse: """
-    tcpclientsrc host=\(camera.stream!.host) port=\(camera.stream!.port) ! queue ! matroskademux ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,format=(string)RGB,width=(int)400,height=(int)400 !  appsink max-buffers=1,drop=(boolean)true name=sink
+    tcpclientsrc host=\(camera.stream!.host) port=\(camera.stream!.port) ! matroskademux ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,format=(string)RGB,width=(int)400,height=(int)400 !  appsink max-buffers=1,drop=(boolean)true name=sink
     """)
 
     bus = pipeline.getBus()
@@ -151,12 +151,8 @@ public class RemoteCameraVideoStream: AppSinkVideoStream {
 
   override open func getCurrentFrame() -> Frame? {
     let frame = super.getCurrentFrame()
-    print("GET FRAME", frame, try! sink.getState())
     try! sink.setState(.playing)
-    for message in bus.popAll() {
-      print("message", message)
-    }
-    //bus.popAllPrintErrors()
+    bus.popAllPrintErrors()
     return frame
   }
 }

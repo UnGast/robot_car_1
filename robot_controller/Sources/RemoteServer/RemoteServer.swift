@@ -30,6 +30,10 @@ public class RemoteServer {
         let server = RemoteProtocolServerImpl(controller, ws, host)
         protocolServers.append(server)
         server.startCommunication()
+        ws.onClose.whenComplete { _ in
+          server.destroy()
+          protocolServers.removeAll(where: { $0 === server })
+        }
     }
   }
 

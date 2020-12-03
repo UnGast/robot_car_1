@@ -46,7 +46,7 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
         send(RemoteProtocol.ServerGPIOStatesMessage(states: robotController.gpioController.getPinStates()))
 
       case let message as RemoteProtocol.ClientRequestCameraStreamMessage:
-        initiateCameraStream(id: message.cameraId)
+        serveCameraStream(id: message.cameraId)
 
       default:
         print("Received message type that was not handled! \(message)")
@@ -66,10 +66,18 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
     }))
   }
 
-  private func initiateCameraStream(id cameraId: String) {
-    let streamer = CameraStreamer(host: host, source: robotController.getCameraStreamSource(id: cameraId))
-    cameraStreamers[cameraId] = streamer
-    streamer.startStream()
+  private func serveCameraStream(id cameraId: String) {
+    if cameraStreamers[cameraId] == nil {
+      let streamer = CameraStreamer(host: host, source: robotController.getCameraStreamSource(id: cameraId))
+      cameraStreamers[cameraId] = streamer
+      streamer.startStream()
+    }
     sendCameraInfoMessage()
+  }
+
+  internal func destroy() {
+    for streamer in cameraStreamers.values {
+      streamer.destroy()
+    }
   }
 }

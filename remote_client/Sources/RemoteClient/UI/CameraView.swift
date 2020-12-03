@@ -26,6 +26,8 @@ public class CameraView: SingleChildWidget {
         }
       }
 
+      Text("CAMREA STREAM \(camera.stream)")
+
       if camera.stream != nil {
         ConstrainedSize(minSize: DSize2(800, 800)) {
           VideoView(stream: RemoteCameraVideoStream(camera: camera))
