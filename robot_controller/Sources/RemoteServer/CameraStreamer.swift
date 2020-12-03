@@ -18,7 +18,7 @@ public class CameraStreamer {
     pipeline = Pipeline() // try! Pipeline(parse: "videotestsrc is-live=true ! x264enc bitrate=100  ! rtph264pay ! udpsink host=127.0.0.1 port=\(port)")
     bus = pipeline.getBus()
 
-    let sink = try! Bin(parse: "videoconvert ! x264enc bitrate=100  ! rtph264pay ! udpsink host=127.0.0.1 port=\(port)")
+    let sink = try! Bin(parse: "videoconvert ! x264enc bitrate=1000  ! matroskamux ! queue leaky=2 ! tcpserversink host=\(host) port=\(port)")
 
     pipeline.add(source, sink)
 
