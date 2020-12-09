@@ -4,7 +4,9 @@ import GStreamer
 public class RemoteClientApp: WidgetsApp {
   public init() {
     super.init(baseApp: SDL2OpenGL3NanoVGVisualApp())
+  }
 
+  override open func setup() {
     let store = Store()
     store.dispatch(.Connect(host: "localhost", port: 8080))
 
@@ -15,14 +17,6 @@ public class RemoteClientApp: WidgetsApp {
 
     _ = createWindow(guiRoot: guiRoot, options: Window.Options(title: AppConstants.title), immediate: true)
   }
-  /*
-  override public func createRenderer(for window: Window) -> Renderer {
-    SDL2OpenGL3NanoVGRenderer(for: window)
-  }
-
-  override public func createTreeSliceRenderer(context: ApplicationContext) -> TreeSliceRenderer {
-    TreeSliceRenderer(context: context)
-  }*/
 }
 
 GStreamer.initialize()
