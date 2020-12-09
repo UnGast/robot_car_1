@@ -82,7 +82,7 @@ public enum StoreMutation {
 }
 
 public enum StoreAction {
-  case Connect(host: String, port: UInt)
+  case Connect(host: String, port: Int)
   case Disconnect
 
   case SetGPIODirection(gpioId: UInt, direction: GPIOPinDirection)

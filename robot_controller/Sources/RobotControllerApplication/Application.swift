@@ -4,10 +4,12 @@ import RobotControllerBase
 import GStreamer
 
 public class RobotControllerApplication {
-  private var robotController: RobotController
+  public let robotController: RobotController
+  public let cameraStreamer: CameraStreamer.Type
   
-  public init(robotController: RobotController) {
+  public init(robotController: RobotController, cameraStreamer: CameraStreamer.Type) {
     self.robotController = robotController
+    self.cameraStreamer = cameraStreamer
   }
 
   public func start() throws {
@@ -16,7 +18,7 @@ public class RobotControllerApplication {
     var serveCommand = try Serve.parseAsRoot(nil) as! Serve
     try serveCommand.run()
 
-    let server = RemoteServer(controller: robotController, host: serveCommand.host, port: serveCommand.port)
+    let server = RemoteServer(controller: robotController, cameraStreamer: cameraStreamer, host: serveCommand.host, port: serveCommand.port)
     try server.serve()
   }
 
@@ -25,7 +27,7 @@ public class RobotControllerApplication {
     var host: String?
 
     @Option(name: .shortAndLong)
-    var port: UInt?
+    var port: Int?
 
     func run() throws {}
   }

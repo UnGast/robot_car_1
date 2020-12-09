@@ -13,10 +13,10 @@ public struct CameraInfo: Codable {
 extension CameraInfo {
   public struct StreamInfo: Codable {
     public var host: String
-    public var port: UInt
+    public var port: Int
     public var codec: CameraStreamCodec
 
-    public init(host: String, port: UInt, codec: CameraStreamCodec) {
+    public init(host: String, port: Int, codec: CameraStreamCodec) {
       self.host = host
       self.port = port
       self.codec = codec

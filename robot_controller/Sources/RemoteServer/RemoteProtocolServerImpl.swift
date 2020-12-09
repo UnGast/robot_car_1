@@ -5,11 +5,13 @@ import RobotControllerBase
 public class RemoteProtocolServerImpl: RemoteProtocolServer {
   private let socket: WebSocket
   private let robotController: RobotController
+  private let cameraStreamer: CameraStreamer.Type
   private let host: String
   private var cameraStreamers: [String: CameraStreamer] = [:]
 
-  public init(_ robotController: RobotController, _ socket: WebSocket, _ host: String) {
+  public init(robotController: RobotController, cameraStreamer: CameraStreamer.Type, socket: WebSocket, host: String) {
     self.robotController = robotController
+    self.cameraStreamer = cameraStreamer
     self.socket = socket
     self.host = host
   }
@@ -68,9 +70,9 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
 
   private func serveCameraStream(id cameraId: String) {
     if cameraStreamers[cameraId] == nil {
-      let streamer = CameraStreamer(host: host, source: robotController.getCameraStreamSource(id: cameraId))
+      let streamer = self.cameraStreamer.init(host: host, source: robotController.getCameraStreamSource(id: cameraId))
       cameraStreamers[cameraId] = streamer
-      streamer.startStream()
+      try! streamer.startStream()
     }
     sendCameraInfoMessage()
   }
