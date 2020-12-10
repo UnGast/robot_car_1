@@ -174,8 +174,8 @@ public class NvidiaJetsonGPIOController: GPIOController {
         return GPIOPinState(id: gpioId, direction: direction, value: value)
     }
 
-    public func getPinStates() -> [GPIOPinState] {
-        gpioIdHeaderIdMap.keys.reduce(into: [UInt: GPIOPinState]) {
+    public func getPinStates() -> [UInt: GPIOPinState] {
+        gpioIdHeaderIdMap.keys.reduce(into: [:]) {
             $0[$1] = getPinState(gpioId: $1)
         }
     }

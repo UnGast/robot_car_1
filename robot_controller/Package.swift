@@ -58,7 +58,7 @@ var package = Package(
         ),
         .target(
             name: "NvidiaJetsonNanoRobotController",
-            dependencies: ["RobotControllerBase", "NvidiaJetsonGPIO", "RobotControllerApplication"]
+            dependencies: ["RobotControllerBase", "NvidiaJetsonGPIO", "RobotControllerApplication", "GStreamer"]
         ),
         .testTarget(
             name: "RobotControllerTests",
