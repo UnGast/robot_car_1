@@ -37,4 +37,10 @@ public class RemoteProtocolClientImpl: RemoteProtocolClient {
       print("Client received message type that was not handled! \(message)")
     }
   }
+
+  public func endCommunication() {}
+
+  deinit {
+    print("deinitialized RemoteProtocolClientImpl")
+  }
 }

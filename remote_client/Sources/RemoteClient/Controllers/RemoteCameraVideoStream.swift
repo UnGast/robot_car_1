@@ -30,7 +30,7 @@ public class RemoteCameraVideoStream: AppSinkVideoStream {
     formatFilter.setCaps(caps)
 
     let */
-
+ 
 
     /*pipeline = try! Pipeline(parse: """
     udpsrc port=5000 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! video/x-raw,format=(string)RGB ! videoconvert  ! videoscale ! video/x-raw,width=(int)400,height=(int)400 !  appsink name=sink
@@ -39,7 +39,7 @@ public class RemoteCameraVideoStream: AppSinkVideoStream {
     // TEST WIHT: gst-launch-1.0 -v videotestsrc is-live=true ! video/x-raw,width=1000,height=1000,framerate=30/1 ! videoscale ! videoconvert      ! x264enc bitrate=3000  ! rtph264pay ! udpsink host=127.0.0.1 port=5000
 
     pipeline = try! Pipeline(parse: """
-    tcpclientsrc host=\(camera.stream!.host) port=\(camera.stream!.port) ! matroskademux ! avdec_h264 ! videoconvert ! videoscale ! video/x-raw,format=(string)RGB,width=(int)400,height=(int)400 !  appsink max-buffers=1,drop=(boolean)true name=sink
+    tcpclientsrc host=\(camera.stream!.host) port=\(camera.stream!.port) ! matroskademux ! avdec_h264 ! queue leaky=1 ! videoconvert ! videoscale ! video/x-raw,format=(string)RGB,width=(int)400,height=(int)400 ! appsink max-buffers=5,drop=(boolean)true name=sink
     """)
 
     bus = pipeline.getBus()

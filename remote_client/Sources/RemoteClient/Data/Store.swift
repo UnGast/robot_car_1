@@ -33,7 +33,13 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreMutation, StoreAct
       }
 
     case .Disconnect:
+      if let connection = state.connection {
+        ConnectionManager.close(connection)
+      }
       commit(.SetConnection(nil))
+      commit(.SetGPIOHeaders(nil))
+      commit(.SetGPIOStates(nil))
+      commit(.SetCameras([]))
 
     case let .SetGPIODirection(gpioId, direction):
       if state.gpioConfigurationAllowed {
@@ -75,8 +81,8 @@ public enum StoreMutation {
   case SetConnection(_ connection: Connection?)
 
   case SetGPIOConfigurationAllowed(_ allowed: Bool)
-  case SetGPIOHeaders(_ headers: [GPIOHeader])
-  case SetGPIOStates(_ states: [UInt: GPIOPinState])
+  case SetGPIOHeaders(_ headers: [GPIOHeader]?)
+  case SetGPIOStates(_ states: [UInt: GPIOPinState]?)
 
   case SetCameras(_ cameras: [CameraInfo])
 }

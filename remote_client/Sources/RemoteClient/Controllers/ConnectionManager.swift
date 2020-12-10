@@ -16,6 +16,11 @@ public class ConnectionManager {
     }
   }
 
+  public static func close(_ connection: Connection) {
+    clients[connection]!.endCommunication()
+    clients[connection] = nil
+  }
+
   public static func getClient(for connection: Connection) -> RemoteProtocolClientImpl {
     clients[connection]!
   }

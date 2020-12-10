@@ -15,7 +15,7 @@ public class RemoteClientApp: WidgetsApp {
         MainView()
       })
 
-    _ = createWindow(guiRoot: guiRoot, options: Window.Options(title: AppConstants.title), immediate: true)
+    _ = createWindow(guiRoot: guiRoot, options: Window.Options(title: AppConstants.title, initialSize: DSize2(1000, 1000)), immediate: true)
   }
 }
 
