@@ -1,6 +1,7 @@
 import BaseGPIO
 import RemoteProtocol
 import class GStreamer.Element
+
 open class RobotController {
   open var gpioController: GPIOController
   open var cameras: [String: Camera] = [:]

@@ -9,12 +9,12 @@ public class MockGPIOController: GPIOController {
     ]))
   ]
 
-  private var gpioPinStates: [UInt: GPIOPinState]
+  private var gpioPinStates: [Int: GPIOPinState]
 
-  private var gpioIdHeaderIdMap: [UInt: UInt]
+  private var gpioIdHeaderIdMap: [Int: Int]
 
   public init() {
-    self.gpioIdHeaderIdMap = headers.flatMap { $0.pinRoles }.reduce(into: [UInt: UInt]()) { result, element in
+    self.gpioIdHeaderIdMap = headers.flatMap { $0.pinRoles }.reduce(into: [Int: Int]()) { result, element in
       for role in element.value {
         if case let .gpio(gpioId) = role {
           result[gpioId] = element.key
@@ -22,12 +22,12 @@ public class MockGPIOController: GPIOController {
         }
       }
     }
-    self.gpioPinStates = gpioIdHeaderIdMap.keys.reduce(into: [UInt: GPIOPinState]()) {
+    self.gpioPinStates = gpioIdHeaderIdMap.keys.reduce(into: [Int: GPIOPinState]()) {
       $0[$1] = GPIOPinState(id: $1, direction: .input, value: .low)
     }
   }
 
-  public func set(gpioId: UInt, direction: GPIOPinDirection) throws {
+  public func set(gpioId: Int, direction: GPIOPinDirection) throws {
     guard let _ = gpioIdHeaderIdMap[gpioId] else {
       fatalError("tried to access non-existent gpio pin")
     }
@@ -35,7 +35,7 @@ public class MockGPIOController: GPIOController {
     gpioPinStates[gpioId]!.direction = direction
   }
     
-  public func set(gpioId: UInt, value: GPIOPinValue) throws {
+  public func set(gpioId: Int, value: GPIOPinValue) throws {
     guard let _ = gpioIdHeaderIdMap[gpioId] else {
       fatalError("tried to access non-existent gpio pin")
     }
@@ -47,7 +47,7 @@ public class MockGPIOController: GPIOController {
     }
   }
 
-  public func getDirection(gpioId: UInt) -> GPIOPinDirection {
+  public func getDirection(gpioId: Int) -> GPIOPinDirection {
     guard let _ = gpioIdHeaderIdMap[gpioId] else {
       fatalError("tried to access non-existent gpio pin")
     }
@@ -55,7 +55,7 @@ public class MockGPIOController: GPIOController {
     return gpioPinStates[gpioId]!.direction
   }
 
-  public func getValue(gpioId: UInt) -> GPIOPinValue {
+  public func getValue(gpioId: Int) -> GPIOPinValue {
     guard let _ = gpioIdHeaderIdMap[gpioId] else {
       fatalError("tried to access non-existent gpio pin")
     }
@@ -63,7 +63,7 @@ public class MockGPIOController: GPIOController {
     return gpioPinStates[gpioId]!.value
   }
 
-  public func getPinState(gpioId: UInt) -> GPIOPinState {
+  public func getPinState(gpioId: Int) -> GPIOPinState {
     guard let _ = gpioIdHeaderIdMap[gpioId] else {
       fatalError("tried to access non-existent gpio pin")
     }
@@ -71,7 +71,7 @@ public class MockGPIOController: GPIOController {
     return gpioPinStates[gpioId]!
   }
 
-  public func getPinStates() -> [UInt: GPIOPinState] {
+  public func getPinStates() -> [Int: GPIOPinState] {
     gpioPinStates
   }
 }

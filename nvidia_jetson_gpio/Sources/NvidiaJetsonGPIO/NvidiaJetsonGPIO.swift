@@ -51,8 +51,8 @@ public class NvidiaJetsonGPIOController: GPIOController {
     ]
 
     // map id of gpio pin to id of pin on header
-    private var gpioIdHeaderIdMap: [UInt: UInt] {
-        var map = [UInt: UInt]()
+    private var gpioIdHeaderIdMap: [Int: Int] {
+        var map = [Int: Int]()
         for header in headers {
             for (pinId, pinRoles) in header.pinRoles {
                 for pinRole in pinRoles {
@@ -69,12 +69,12 @@ public class NvidiaJetsonGPIOController: GPIOController {
     private static let gpioBasePath = Path("/sys/class/gpio")!
     private static let gpioExportPath = NvidiaJetsonGPIOController.gpioBasePath/"export"
 
-    public static let GPIO216: UInt = 216
-    public static let GPIO50: UInt = 50
+    public static let GPIO216: Int = 216
+    public static let GPIO50: Int = 50
 
     public init() {}
 
-    private func ensureGPIOPinEnabled(_ gpioId: UInt) throws {
+    private func ensureGPIOPinEnabled(_ gpioId: Int) throws {
         guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
@@ -86,7 +86,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
         }
     }
 
-    public func set(gpioId: UInt, direction: GPIOPinDirection) throws {
+    public func set(gpioId: Int, direction: GPIOPinDirection) throws {
         try ensureGPIOPinEnabled(gpioId)
 
         let pinPath = getGPIOPinPath(gpioId: gpioId)
@@ -101,7 +101,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
         try rawDirection.write(to: pinPath/"direction")
     }
 
-    public func set(gpioId: UInt, value: GPIOPinValue) throws {
+    public func set(gpioId: Int, value: GPIOPinValue) throws {
         try ensureGPIOPinEnabled(gpioId)
 
         let pinPath = getGPIOPinPath(gpioId: gpioId)
@@ -120,7 +120,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
         }
     }
 
-    public func getDirection(gpioId: UInt) -> GPIOPinDirection {
+    public func getDirection(gpioId: Int) -> GPIOPinDirection {
         guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
@@ -143,7 +143,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
         return direction
     }
 
-    public func getValue(gpioId: UInt) -> GPIOPinValue {
+    public func getValue(gpioId: Int) -> GPIOPinValue {
         guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
@@ -163,7 +163,7 @@ public class NvidiaJetsonGPIOController: GPIOController {
         }
     }
 
-    public func getPinState(gpioId: UInt) -> GPIOPinState { 
+    public func getPinState(gpioId: Int) -> GPIOPinState { 
         guard let _ = gpioIdHeaderIdMap[gpioId] else {
             fatalError("tried to access non-existing gpio pin: \(gpioId)")
         }
@@ -174,13 +174,13 @@ public class NvidiaJetsonGPIOController: GPIOController {
         return GPIOPinState(id: gpioId, direction: direction, value: value)
     }
 
-    public func getPinStates() -> [UInt: GPIOPinState] {
+    public func getPinStates() -> [Int: GPIOPinState] {
         gpioIdHeaderIdMap.keys.reduce(into: [:]) {
             $0[$1] = getPinState(gpioId: $1)
         }
     }
  
-    private func getGPIOPinPath(gpioId: UInt) -> Path {
+    private func getGPIOPinPath(gpioId: Int) -> Path {
         return Self.gpioBasePath/("gpio\(gpioId)")
     }
 }

@@ -1,15 +1,15 @@
 public protocol GPIOController {
     var headers: [GPIOHeader] { get }
 
-    func set(gpioId: UInt, direction: GPIOPinDirection) throws 
+    func set(gpioId: Int, direction: GPIOPinDirection) throws 
     
-    func set(gpioId: UInt, value: GPIOPinValue) throws
+    func set(gpioId: Int, value: GPIOPinValue) throws
 
-    func getDirection(gpioId: UInt) -> GPIOPinDirection
+    func getDirection(gpioId: Int) -> GPIOPinDirection
 
-    func getValue(gpioId: UInt) -> GPIOPinValue
+    func getValue(gpioId: Int) -> GPIOPinValue
 
-    func getPinState(gpioId: UInt) -> GPIOPinState
+    func getPinState(gpioId: Int) -> GPIOPinState
 
-    func getPinStates() -> [UInt: GPIOPinState]
+    func getPinStates() -> [Int: GPIOPinState]
 }

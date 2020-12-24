@@ -34,21 +34,21 @@ extension GPIOHeaderPinRole: Codable {
 
     if let level = try? values.decode(Double.self, forKey: .voltage) {
       self = .voltage(level)
-    } else if let id = try? values.decode(UInt.self, forKey: .gpio) {
+    } else if let id = try? values.decode(Int.self, forKey: .gpio) {
       self = .gpio(id)
-    } else if let id = try? values.decode(UInt.self, forKey: .i2cSda) {
+    } else if let id = try? values.decode(Int.self, forKey: .i2cSda) {
       self = .i2cSda(id)
-    } else if let id = try? values.decode(UInt.self, forKey: .i2cScl) {
+    } else if let id = try? values.decode(Int.self, forKey: .i2cScl) {
       self = .i2cScl(id)
     } else if let _ = try? values.decode(Bool.self, forKey: .gnd) {
       self = .gnd
-    } else if let id = try? values.decode(UInt.self, forKey: .uartTx) {
+    } else if let id = try? values.decode(Int.self, forKey: .uartTx) {
       self = .uartTx(id)
-    } else if let id = try? values.decode(UInt.self, forKey: .uartRx) {
+    } else if let id = try? values.decode(Int.self, forKey: .uartRx) {
       self = .uartRx(id)
-    } else if let id = try? values.decode(UInt.self, forKey: .uartRts) {
+    } else if let id = try? values.decode(Int.self, forKey: .uartRts) {
       self = .uartRts(id)
-    } else if let id = try? values.decode(UInt.self, forKey: .i2sClk) {
+    } else if let id = try? values.decode(Int.self, forKey: .i2sClk) {
       self = .i2sClk(id)
     } else {
       throw DecodingError.dataCorrupted(DecodingError.Context(

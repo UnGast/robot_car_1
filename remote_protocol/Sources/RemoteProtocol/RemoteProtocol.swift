@@ -51,9 +51,9 @@ public enum RemoteProtocol {
     }
 
     public struct ServerGPIOStatesMessage: RemoteProtocolServerMessage {
-        public var states: [UInt: GPIOPinState]
+        public var states: [Int: GPIOPinState]
 
-        public init(states: [UInt: GPIOPinState]) {
+        public init(states: [Int: GPIOPinState]) {
             self.states = states
         }
     }
@@ -75,20 +75,20 @@ public enum RemoteProtocol {
     }
 
     public struct ClientSetGPIODirectionMessage: RemoteProtocolClientMessage {
-        public var gpioId: UInt
+        public var gpioId: Int
         public var direction: GPIOPinDirection
 
-        public init(gpioId: UInt, direction: GPIOPinDirection) {
+        public init(gpioId: Int, direction: GPIOPinDirection) {
             self.gpioId = gpioId
             self.direction = direction
         }
     }
 
     public struct ClientSetGPIOValueMessage: RemoteProtocolClientMessage {
-        public var gpioId: UInt
+        public var gpioId: Int
         public var value: GPIOPinValue
 
-        public init(gpioId: UInt, value: GPIOPinValue) {
+        public init(gpioId: Int, value: GPIOPinValue) {
             self.gpioId = gpioId
             self.value = value 
         }
