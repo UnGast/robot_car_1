@@ -1,4 +1,4 @@
 public struct AppConstants {
   public static let title = "robot remote control"
-  public static let defaultPort: UInt = 3000
+  public static let defaultPort: Int = 3000
 }

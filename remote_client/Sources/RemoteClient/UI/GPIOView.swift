@@ -77,8 +77,8 @@ public class GPIOView: SingleChildWidget {
 
   private func buildPin(_ pinId: UInt) -> Widget {
     let roles = gpioHeaders!.flatMap { $0.pinRoles[pinId] }.flatMap { $0 }
-    return Border(all: 1, color: .Grey) { [unowned self] in
-      Background(fill: .White) {
+    return Border(all: 1, color: .grey) { [unowned self] in
+      Background(fill: .white) {
         Padding(all: 16) {
           Row {
             { () -> Widget in

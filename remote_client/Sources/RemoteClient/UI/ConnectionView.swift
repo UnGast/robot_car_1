@@ -1,4 +1,4 @@
-import WidgetGUI
+import SwiftGUI
 
 public class ConnectionView: SingleChildWidget {
   @Inject
@@ -29,7 +29,7 @@ public class ConnectionView: SingleChildWidget {
       store.state.connection
     }
     _ = onDestroy(_connection.onChanged { [unowned self] in
-      if let connection = $0 {
+      if let connection = $0.new {
         rawHost = connection.host
         rawPort = String(connection.port)
       }
@@ -65,7 +65,7 @@ public class ConnectionView: SingleChildWidget {
   }
 
   private func checkConnect() {
-    if let port = UInt(rawPort) {
+    if let port = Int(rawPort) {
       store.dispatch(.Connect(host: rawHost, port: port))
     }
   }
