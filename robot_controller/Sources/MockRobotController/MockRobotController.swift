@@ -1,6 +1,7 @@
 import BaseGPIO
 import RobotControllerBase
 import GStreamer
+import RemoteProtocol
 
 public class MockRobotController: RobotController {
   public init() {
@@ -10,5 +11,9 @@ public class MockRobotController: RobotController {
 
   override open func getCameraStreamSource(id cameraId: String) -> GStreamer.Element {
     return VideoTestSource()
+  }
+
+  override open func updateMotionState(_ motionState: MotionState) {
+    print("updating motion state to", motionState)
   }
 }

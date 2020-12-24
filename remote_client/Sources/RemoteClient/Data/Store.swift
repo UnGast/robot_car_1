@@ -59,6 +59,10 @@ public class Store: ReduxStore<StoreState, StoreGetters, StoreMutation, StoreAct
     case let .RequestCameraStream(cameraId):
       ConnectionManager.getClient(for: state.connection!)
         .send(RemoteProtocol.ClientRequestCameraStreamMessage(cameraId: cameraId))
+
+    case let .RequestMotionUpdate(requestedMotionState):
+      ConnectionManager.getClient(for: state.connection!)
+        .send(RemoteProtocol.ClientRequestMotionUpdateMessage(requestedMotionState: requestedMotionState))
     }
   }
 }
@@ -95,4 +99,6 @@ public enum StoreAction {
   case SetGPIOValue(gpioId: UInt, value: GPIOPinValue)
 
   case RequestCameraStream(cameraId: String)
+
+  case RequestMotionUpdate(_ requestedMotionState: MotionState)
 }

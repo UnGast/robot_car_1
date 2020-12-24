@@ -50,6 +50,9 @@ public class RemoteProtocolServerImpl: RemoteProtocolServer {
       case let message as RemoteProtocol.ClientRequestCameraStreamMessage:
         serveCameraStream(id: message.cameraId)
 
+      case let message as RemoteProtocol.ClientRequestMotionUpdateMessage:
+        robotController.updateMotionState(message.requestedMotionState)
+
       default:
         print("Received message type that was not handled! \(message)")
       }

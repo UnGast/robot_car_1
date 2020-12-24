@@ -102,6 +102,14 @@ public enum RemoteProtocol {
         }
     }
 
+    public struct ClientRequestMotionUpdateMessage: RemoteProtocolClientMessage {
+        public var requestedMotionState: MotionState
+
+        public init(requestedMotionState: MotionState) {
+            self.requestedMotionState = requestedMotionState
+        }
+    }
+
     public static let messageTypes: [String: RemoteProtocolMessage.Type] = [
         "ServerHandshakeMessage": ServerHandshakeMessage.self,
         "ServerGPIOStatesMessage": ServerGPIOStatesMessage.self,
@@ -110,7 +118,8 @@ public enum RemoteProtocol {
         "ClientHandshakeMessage": ClientHandshakeMessage.self,
         "ClientSetGPIODirectionMessage": ClientSetGPIODirectionMessage.self,
         "ClientSetGPIOValueMessage": ClientSetGPIOValueMessage.self,
-        "ClientRequestCameraStreamMessage": ClientRequestCameraStreamMessage.self
+        "ClientRequestCameraStreamMessage": ClientRequestCameraStreamMessage.self,
+        "ClientRequestMotionUpdateMessage": ClientRequestMotionUpdateMessage.self
     ]
 
     public static func deserializeMessage(_ data: String) -> RemoteProtocolMessage {
